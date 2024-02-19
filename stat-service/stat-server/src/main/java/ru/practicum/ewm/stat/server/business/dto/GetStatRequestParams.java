@@ -18,8 +18,8 @@ public class GetStatRequestParams {
     Collection<String> uris;
     boolean unique;
 
-    public static GetStatRequestParams of (LocalDateTime start, LocalDateTime end, Collection<String> uris,
-                                           boolean unique) {
+    public static GetStatRequestParams of(LocalDateTime start, LocalDateTime end, Collection<String> uris,
+                                          boolean unique) {
         GetStatRequestParams request = new GetStatRequestParams();
         request.setStart(start);
         request.setEnd(end);

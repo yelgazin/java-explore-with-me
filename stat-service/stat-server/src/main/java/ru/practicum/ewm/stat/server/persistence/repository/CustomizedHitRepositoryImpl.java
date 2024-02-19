@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.JpaContext;
 import org.springframework.stereotype.Component;
 import ru.practicum.ewm.stat.server.persistence.dto.StatProjection;
 import ru.practicum.ewm.stat.server.persistence.entity.HitEntity;
-import ru.practicum.ewm.stat.server.persistence.entity.QEndpointEntity;
 import ru.practicum.ewm.stat.server.persistence.entity.QHitEntity;
 
 import javax.persistence.EntityManager;

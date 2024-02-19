@@ -15,7 +15,6 @@ import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import ru.practicum.ewm.stat.client.exception.StatClientException;
 import ru.practicum.ewm.stat.common.presentation.dto.EndpointHitCreateRequest;
-import ru.practicum.ewm.stat.common.presentation.dto.StatResponse;
 
 import java.time.LocalDateTime;
 import java.util.function.Supplier;
