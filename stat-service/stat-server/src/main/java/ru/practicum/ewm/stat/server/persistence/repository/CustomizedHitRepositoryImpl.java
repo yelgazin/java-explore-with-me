@@ -2,7 +2,9 @@ package ru.practicum.ewm.stat.server.persistence.repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,16 +49,17 @@ public class CustomizedHitRepositoryImpl implements CustomizedHitRepository {
                 .get();
 
         NumberExpression<Long> countUniqueIpExpression = unique ? hitEntity.ip.countDistinct() : hitEntity.ip.count();
+        NumberPath<Long> aliasHits = Expressions.numberPath(Long.class, "hits");
 
         JPAQuery<StatProjection> query = queryFactory
                 .select(Projections.bean(StatProjection.class,
                         hitEntity.endpoint.app,
                         hitEntity.endpoint.uri,
-                        countUniqueIpExpression.as("hits")))
+                        countUniqueIpExpression.as(aliasHits)))
                 .from(hitEntity)
                 .where(finalCondition)
                 .groupBy(hitEntity.endpoint.id, hitEntity.endpoint.app, hitEntity.endpoint.uri)
-                .orderBy(hitEntity.endpoint.id.asc());
+                .orderBy(aliasHits.desc(), hitEntity.endpoint.id.asc());
 
         return query.fetch();
     }
