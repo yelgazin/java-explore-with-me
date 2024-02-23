@@ -27,23 +27,23 @@ services:
       - POSTGRES_USER=stat
       - POSTGRES_PASSWORD=#dws^54^@3
 
-#  ewm-service:
-#    build: ./event-service/event-server
-#    image: event-server
-#    ports:
-#      - "9090:8080"
-#    restart: on-failure
-#    depends_on:
-#      - ewm-db
-#      - stats-server
-#
-#  ewm-db:
-#    image: postgres:14-alpine
-#    volumes:
-#      - /var/lib/postgresql/data/
-#    ports:
-#      - "8432:5432"
-#    environment:
-#      - POSTGRES_DB=event
-#      - POSTGRES_USER=event
-#      - POSTGRES_PASSWORD="fEW2!2334fgd$"
+  ewm-service:
+    build: ./event-service/event-server
+    image: event-server
+    ports:
+      - "9090:8080"
+    restart: on-failure
+    depends_on:
+      - ewm-db
+      - stats-server
+
+  ewm-db:
+    image: postgres:14-alpine
+    volumes:
+      - /var/lib/postgresql/data/
+    ports:
+      - "8432:5432"
+    environment:
+      - POSTGRES_DB=event
+      - POSTGRES_USER=event
+      - POSTGRES_PASSWORD=fEW2!2334fgd$
