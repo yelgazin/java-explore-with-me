@@ -43,7 +43,7 @@ services:
       - DB_PORT=5432
       - DB_NAME=event
       - POSTGRES_USER=event
-      - POSTGRES_PASSWORD=fEW2!2334fgd$
+      - POSTGRES_PASSWORD=fEW2!2334fgd
 
   ewm-db:
     image: postgres:14-alpine
@@ -54,4 +54,4 @@ services:
     environment:
       - POSTGRES_DB=event
       - POSTGRES_USER=event
-      - POSTGRES_PASSWORD=fEW2!2334fgd$
+      - POSTGRES_PASSWORD=fEW2!2334fgd
