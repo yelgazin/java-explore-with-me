@@ -14,8 +14,8 @@ import javax.validation.constraints.Size;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCreateRequest {
 
-    static final String NAME_BLANK_MESSAGE = "Имя пользовтаеля должно содержать печатные символы.";
-    static final String NAME_LENGTH_MESSAGE = "Имя пользовтаеля должно содержать от 2 до 250 символов.";
+    static final String NAME_BLANK_MESSAGE = "Имя пользователя должно содержать печатные символы.";
+    static final String NAME_LENGTH_MESSAGE = "Имя пользователя должно содержать от 2 до 250 символов.";
     static final String EMAIL_LENGTH_MESSAGE = "Почтовый адрес должен содержать от 6 до 254 печатных символов.";
     static final String EMAIL_FORMAT_MESSAGE = "Электронная почта не соответствует формату \"user@mail.ru\".";
 

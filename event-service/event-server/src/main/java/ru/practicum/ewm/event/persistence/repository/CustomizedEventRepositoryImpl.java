@@ -2,6 +2,7 @@ package ru.practicum.ewm.event.persistence.repository;
 
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,8 @@ public class CustomizedEventRepositoryImpl implements CustomizedEventRepository 
         return queryFactory.selectFrom(eventEntity)
                 .where(conditions)
                 .orderBy(sortOrder)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
     }
 
@@ -110,7 +113,7 @@ public class CustomizedEventRepositoryImpl implements CustomizedEventRepository 
 
         return conditions.stream()
                 .reduce(BooleanExpression::and)
-                .get();
+                .orElseGet(() -> Expressions.asBoolean(true).isTrue());
     }
 
     private BooleanExpression makeSearchTextCondition(String text) {

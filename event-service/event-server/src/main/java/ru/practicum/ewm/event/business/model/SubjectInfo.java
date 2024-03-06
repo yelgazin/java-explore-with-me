@@ -8,12 +8,12 @@ import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SubjectInfo {
 
-    Long userId;
-    SubjectRole role;
+    private Long userId;
+    private SubjectRole role;
 
     public static SubjectInfo of(Long userId, SubjectRole role) {
         return new SubjectInfo(userId, role);

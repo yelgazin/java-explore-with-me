@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.ewm.stat.common.presentation.dto.EndpointHitCreateRequest;
 import ru.practicum.ewm.stat.common.presentation.dto.StatResponse;
-import ru.practicum.ewm.stat.server.business.service.StatService;
 import ru.practicum.ewm.stat.server.business.dto.GetStatRequestParams;
+import ru.practicum.ewm.stat.server.business.service.StatService;
 import ru.practicum.ewm.stat.server.presentation.mapper.HitMapper;
 import ru.practicum.ewm.stat.server.presentation.mapper.StatMapper;
 

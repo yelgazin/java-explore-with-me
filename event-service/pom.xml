@@ -13,7 +13,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>event-server</module>
-        <module>event-common</module>
     </modules>
 
     <properties>

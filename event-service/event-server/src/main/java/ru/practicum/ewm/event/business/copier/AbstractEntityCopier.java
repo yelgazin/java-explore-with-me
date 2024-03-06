@@ -8,5 +8,5 @@ import ru.practicum.ewm.event.persistence.entity.AbstractEntity;
 public interface AbstractEntityCopier<T extends AbstractEntity> {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void update(@MappingTarget T entity, T sourceEntity);
+    void update(@MappingTarget T targetEntity, T sourceEntity);
 }

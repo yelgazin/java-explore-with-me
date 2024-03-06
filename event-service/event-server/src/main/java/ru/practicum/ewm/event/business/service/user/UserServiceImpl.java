@@ -1,4 +1,4 @@
-package ru.practicum.ewm.event.business.service;
+package ru.practicum.ewm.event.business.service.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<UserEntity> findUsers(Collection<Long> ids, int from, int size) {
+    public List<UserEntity> findUsers(Collection<Long> ids, long from, int size) {
+        log.info("Поиск пользователей с идентификаторами {}. Начиная с {}, количество объектов {}.", ids, from, size);
+
         if (ids.isEmpty()) {
             return userRepository.findAllByOrderById(PageableUtil.of(from, size));
         } else {
@@ -34,11 +36,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity createUser(UserEntity user) {
+        log.info("Создание пользователя. {}", user);
         return userRepository.save(user);
     }
 
     @Override
     public void deleteUser(long userId) {
+        log.info("Удаление пользователя с id {}.", userId);
+
         if (!userRepository.existsById(userId)) {
             throw new NotFoundException(format("Пользователь с id {} не найден", userId),
                     "Отсутствуют сведения в базе данных");
