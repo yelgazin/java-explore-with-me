@@ -1,4 +1,24 @@
 package ru.practicum.ewm.event.presentation.dto;
 
-public class CategoryUpdateRequest extends CategoryCreateRequest {
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
+import ru.practicum.ewm.event.presentation.validation.NullOrNotBlank;
+
+import javax.validation.constraints.Size;
+
+@Getter
+@Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class CategoryUpdateRequest {
+
+    static final String NAME_NULL_OR_BLANK_MESSAGE
+            = "Название категории должно содержать печатные символы или отсутствовать.";
+    static final String NAME_LENGTH_MESSAGE
+            = "Название категории должно содержать от 1 до 50 символов.";
+
+    @NullOrNotBlank(message = NAME_NULL_OR_BLANK_MESSAGE)
+    @Size(min = 1, max = 50, message = NAME_LENGTH_MESSAGE)
+    String name;
 }

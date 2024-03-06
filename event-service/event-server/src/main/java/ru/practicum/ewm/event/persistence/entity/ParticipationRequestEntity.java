@@ -2,8 +2,10 @@ package ru.practicum.ewm.event.persistence.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -12,7 +14,7 @@ import javax.persistence.*;
 public class ParticipationRequestEntity extends AbstractEntity {
 
     public enum ParticipationRequestState {
-        PENDING, PUBLISHED, CANCELED;
+        PENDING, CONFIRMED, REJECTED, CANCELED
     }
 
     @ManyToOne
@@ -23,4 +25,7 @@ public class ParticipationRequestEntity extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
     ParticipationRequestState state;
+
+    @CreationTimestamp
+    LocalDateTime created;
 }

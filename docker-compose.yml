@@ -31,11 +31,19 @@ services:
     build: ./event-service/event-server
     image: event-server
     ports:
-      - "9090:8080"
+      - "8080:8080"
     restart: on-failure
     depends_on:
       - ewm-db
       - stats-server
+    environment:
+      - SERVER_PORT=8080
+      - STAT_SERVER_URL=http://stats-server:9090
+      - DB_HOST=ewm-db
+      - DB_PORT=5432
+      - DB_NAME=event
+      - POSTGRES_USER=event
+      - POSTGRES_PASSWORD=fEW2!2334fgd$
 
   ewm-db:
     image: postgres:14-alpine

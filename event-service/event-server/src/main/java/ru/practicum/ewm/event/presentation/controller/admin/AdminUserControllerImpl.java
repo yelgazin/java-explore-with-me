@@ -2,7 +2,7 @@ package ru.practicum.ewm.event.presentation.controller.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
-import ru.practicum.ewm.event.business.service.UserService;
+import ru.practicum.ewm.event.business.service.user.UserService;
 import ru.practicum.ewm.event.presentation.dto.UserCreateRequest;
 import ru.practicum.ewm.event.presentation.dto.UserResponse;
 import ru.practicum.ewm.event.presentation.mapper.UserMapper;

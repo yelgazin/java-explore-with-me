@@ -1,7 +1,6 @@
 package ru.practicum.ewm.event.presentation.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import ru.practicum.ewm.event.persistence.entity.UserEntity;
 import ru.practicum.ewm.event.presentation.dto.UserCreateRequest;

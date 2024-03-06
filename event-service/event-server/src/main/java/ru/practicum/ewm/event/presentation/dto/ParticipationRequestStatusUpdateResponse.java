@@ -10,8 +10,8 @@ import java.util.Collection;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class EventRequestStatusUpdateRequest {
+public class ParticipationRequestStatusUpdateResponse {
 
-    Collection<Long> requestIds;
-    ParticipationRequestResponse status;
+    Collection<ParticipationRequestResponse> confirmedRequests;
+    Collection<ParticipationRequestResponse> rejectedRequests;
 }
