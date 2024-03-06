@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.stat.server.business.dto.GetStatRequestParams;
+import ru.practicum.ewm.stat.server.business.exception.ValidationException;
 import ru.practicum.ewm.stat.server.persistence.dto.StatProjection;
 import ru.practicum.ewm.stat.server.persistence.entity.EndpointEntity;
 import ru.practicum.ewm.stat.server.persistence.entity.HitEntity;
@@ -38,6 +39,15 @@ public class StatServiceImpl implements StatService {
     @Transactional(readOnly = true)
     public List<StatProjection> getStats(GetStatRequestParams request) {
         log.debug("Запрос статистики.");
+
+        validateStatsParams(request);
+
         return hitRepository.getStats(request.getStart(), request.getEnd(), request.getUris(), request.isUnique());
+    }
+
+    private void validateStatsParams(GetStatRequestParams requestParams) {
+        if (requestParams.getEnd().isBefore(requestParams.getStart())) {
+            throw new ValidationException("Дата начала не может быть позже даты окончания.");
+        }
     }
 }

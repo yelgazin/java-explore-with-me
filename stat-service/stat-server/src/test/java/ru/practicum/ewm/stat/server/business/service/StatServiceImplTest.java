@@ -12,6 +12,7 @@ import ru.practicum.ewm.stat.server.persistence.entity.HitEntity;
 import ru.practicum.ewm.stat.server.persistence.repository.EndpointRepository;
 import ru.practicum.ewm.stat.server.persistence.repository.HitRepository;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -79,6 +80,8 @@ class StatServiceImplTest {
         GetStatRequestParams params = new GetStatRequestParams();
         Collection<String> uris = List.of(endpoint.getUri());
         params.setUris(uris);
+        params.setStart(LocalDateTime.now());
+        params.setEnd(LocalDateTime.now().plusDays(1));
 
         statService.getStats(params);
 
