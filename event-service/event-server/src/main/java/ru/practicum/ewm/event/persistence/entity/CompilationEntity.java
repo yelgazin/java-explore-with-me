@@ -18,7 +18,7 @@ import java.util.Set;
 public class CompilationEntity extends AbstractEntity {
 
     String title;
-    Boolean pinned;
+    boolean pinned;
 
     @ToString.Exclude
     @OneToMany

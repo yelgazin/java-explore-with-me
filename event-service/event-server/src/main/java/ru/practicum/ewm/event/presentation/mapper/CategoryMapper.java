@@ -2,6 +2,7 @@ package ru.practicum.ewm.event.presentation.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
+import ru.practicum.ewm.event.business.dto.CategoryUpdateParameters;
 import ru.practicum.ewm.event.persistence.entity.CategoryEntity;
 import ru.practicum.ewm.event.presentation.dto.CategoryCreateRequest;
 import ru.practicum.ewm.event.presentation.dto.CategoryResponse;
@@ -16,7 +17,7 @@ public interface CategoryMapper {
 
     CategoryEntity toCategoryEntity(CategoryCreateRequest categoryCreateRequest);
 
-    CategoryEntity toCategoryEntity(CategoryUpdateRequest categoryUpdateRequest);
+    CategoryUpdateParameters toCategoryUpdateParameters(CategoryUpdateRequest categoryUpdateRequest);
 
     List<CategoryResponse> toCategoryResponse(List<CategoryEntity> categoryEntities);
 }

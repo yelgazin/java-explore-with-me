@@ -55,7 +55,7 @@ public class UserEventControllerImpl implements UserEventController {
     @Override
     public EventFullResponse updateEvent(long userId, long eventId, EventUpdateRequest updateRequest) {
         return eventMapper.toEventFullResponse(eventService.updateEvent(SubjectInfo.of(userId, SubjectRole.USER),
-                eventId, eventMapper.toEventEntity(updateRequest), updateRequest.getStateAction())
+                eventId, eventMapper.toEventUpdateParameters(updateRequest), updateRequest.getStateAction())
         );
     }
 

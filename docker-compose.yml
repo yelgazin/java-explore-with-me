@@ -4,7 +4,7 @@ services:
     build: ./stat-service/stat-server
     image: stat-server
     ports:
-      - "9090:9090"
+      - "9091:9090"
     restart: on-failure
     depends_on:
       - stats-db

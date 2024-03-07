@@ -1,5 +1,6 @@
 package ru.practicum.ewm.event.business.service.compilation;
 
+import ru.practicum.ewm.event.business.dto.CompilationUpdateParameters;
 import ru.practicum.ewm.event.business.exception.NotFoundException;
 import ru.practicum.ewm.event.persistence.entity.CompilationEntity;
 
@@ -22,11 +23,11 @@ public interface CompilationService {
      * Обновление подборки событий.
      * Если поле параметра не указано (равно null) - значит изменение этих данных не требуется.
      *
-     * @param compilationId     id существующей подборки
-     * @param sourceCompilation параметры для обновления
+     * @param compilationId    id существующей подборки
+     * @param updateParameters параметры для обновления
      * @return обновленная подборка событий.
      */
-    CompilationEntity updateCompilation(long compilationId, CompilationEntity sourceCompilation);
+    CompilationEntity updateCompilation(long compilationId, CompilationUpdateParameters updateParameters);
 
     /**
      * Удаление подборки событий.
@@ -39,8 +40,8 @@ public interface CompilationService {
      * Поиск подборок по параметрам.
      *
      * @param pinned признак наличия закрепления
-     * @param from индекс первого объекта
-     * @param size максимальное кол-во возвращаемых объектов
+     * @param from   индекс первого объекта
+     * @param size   максимальное кол-во возвращаемых объектов
      * @return список подборок.
      */
     List<CompilationEntity> findCompilations(Boolean pinned, long from, int size);

@@ -1,6 +1,7 @@
 package ru.practicum.ewm.event.presentation.mapper;
 
 import org.mapstruct.*;
+import ru.practicum.ewm.event.business.dto.EventUpdateParameters;
 import ru.practicum.ewm.event.persistence.entity.EventEntity;
 import ru.practicum.ewm.event.presentation.dto.EventCreateRequest;
 import ru.practicum.ewm.event.presentation.dto.EventFullResponse;
@@ -40,8 +41,6 @@ public interface EventMapper {
     @Mapping(target = "date", source = "eventDate")
     EventEntity toEventEntity(EventCreateRequest createRequest);
 
-    @Mapping(target = "category.id", source = "category")
-    @Mapping(target = "date", source = "eventDate")
-    EventEntity toEventEntity(EventUpdateRequest updateRequest);
+    EventUpdateParameters toEventUpdateParameters(EventUpdateRequest updateRequest);
 }
 

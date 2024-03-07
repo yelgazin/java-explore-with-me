@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.event.business.copier.EventCopier;
 import ru.practicum.ewm.event.business.dto.EventSearchParameters;
+import ru.practicum.ewm.event.business.dto.EventUpdateParameters;
 import ru.practicum.ewm.event.business.exception.BusinessLogicException;
 import ru.practicum.ewm.event.business.exception.NotFoundException;
 import ru.practicum.ewm.event.business.exception.ValidationException;
@@ -106,10 +107,10 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public EventEntity updateEvent(SubjectInfo subjectInfo, long eventId, EventEntity sourceEvent,
+    public EventEntity updateEvent(SubjectInfo subjectInfo, long eventId, EventUpdateParameters updateParameters,
                                    EventStateAction stateAction) {
         log.info("Обновление события пользователем с id {} и ролью {}. Действие {}. Параметры обновления {}.",
-                subjectInfo.getUserId(), subjectInfo.getRole(), stateAction, sourceEvent);
+                subjectInfo.getUserId(), subjectInfo.getRole(), stateAction, updateParameters);
 
         EventEntity targetEvent = eventRepository.findEventEntityById(eventId)
                 .orElseThrow(() -> new NotFoundException(
@@ -118,10 +119,10 @@ public class EventServiceImpl implements EventService {
                         )
                 );
 
-        validateEntityUpdate(subjectInfo, eventId, sourceEvent, targetEvent);
+        validateEventUpdateParameters(subjectInfo, eventId, updateParameters, targetEvent);
 
-        ensureEventCategory(sourceEvent);
-        eventCopier.update(targetEvent, sourceEvent);
+        eventCopier.update(targetEvent, updateParameters);
+        ensureEventCategory(targetEvent, updateParameters.getCategory());
 
         if (stateAction != null) {
             processAction(subjectInfo, eventId, stateAction, targetEvent);
@@ -156,8 +157,8 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    private static void validateEntityUpdate(SubjectInfo subjectInfo, long eventId,
-                                             EventEntity sourceEvent, EventEntity targetEvent) {
+    private static void validateEventUpdateParameters(SubjectInfo subjectInfo, long eventId,
+                                                      EventUpdateParameters updateParameters, EventEntity targetEvent) {
         Long userId = subjectInfo.getUserId();
         EventState currentState = targetEvent.getState();
 
@@ -174,8 +175,8 @@ public class EventServiceImpl implements EventService {
                     ), "Не является владельцем.");
         }
 
-        if (sourceEvent.getDate() != null) {
-            if (sourceEvent.getDate().isBefore(LocalDateTime.now().plusHours(EVENT_START_HOURS_LAG))) {
+        if (updateParameters.getEventDate() != null) {
+            if (updateParameters.getEventDate().isBefore(LocalDateTime.now().plusHours(EVENT_START_HOURS_LAG))) {
                 throw new ValidationException(
                         format("Событие должно быть не ранее чем через {0} часа.", EVENT_START_HOURS_LAG),
                         "Предоставлены неверные данные."
@@ -184,18 +185,14 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    private void ensureEventCategory(EventEntity event) {
-        CategoryEntity category = event.getCategory();
-        if (category != null && category.getId() != null) {
-            long categoryId = category.getId();
-            category = categoryRepository.findById(category.getId())
+    private void ensureEventCategory(EventEntity event, Long categoryId) {
+        if (categoryId != null) {
+            CategoryEntity category = categoryRepository.findById(categoryId)
                     .orElseThrow(() -> new NotFoundException(
                             format("Категория с id {} не найдена.", categoryId),
                             "Отсутствуют сведения в базе данных."
                     ));
             event.setCategory(category);
-        } else {
-            event.setCategory(null);
         }
     }
 }

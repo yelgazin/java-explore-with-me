@@ -26,7 +26,7 @@ public class AdminCompilationControllerImpl implements AdminCompilationControlle
     public CompilationResponse updateCompilation(long compilationId, CompilationUpdateRequest compilationUpdateRequest) {
         return compilationMapper.toCompilationResponse(
                 compilationService.updateCompilation(compilationId,
-                        compilationMapper.toCompilationEntity(compilationUpdateRequest))
+                        compilationMapper.toCompilationUpdateParameters(compilationUpdateRequest))
         );
     }
 

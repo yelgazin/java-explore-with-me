@@ -1,5 +1,6 @@
 package ru.practicum.ewm.event.business.service.category;
 
+import ru.practicum.ewm.event.business.dto.CategoryUpdateParameters;
 import ru.practicum.ewm.event.business.exception.BusinessLogicException;
 import ru.practicum.ewm.event.business.exception.NotFoundException;
 import ru.practicum.ewm.event.persistence.entity.CategoryEntity;
@@ -24,11 +25,11 @@ public interface CategoryService {
      * Если поле параметра не указано (равно null) - значит изменение этих данных не требуется.
      *
      * @param categoryId     id существующей категории
-     * @param sourceCategory параметры для обновления
+     * @param updateParameters параметры для обновления
      * @return обновленная категория.
      * @throws NotFoundException если категория не найдена.
      */
-    CategoryEntity updateCategory(long categoryId, CategoryEntity sourceCategory);
+    CategoryEntity updateCategory(long categoryId, CategoryUpdateParameters updateParameters);
 
     /**
      * Удаление категории по id.

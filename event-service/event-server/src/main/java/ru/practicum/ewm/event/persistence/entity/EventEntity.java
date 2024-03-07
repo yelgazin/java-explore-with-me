@@ -38,9 +38,9 @@ public class EventEntity extends AbstractEntity {
     @AttributeOverride(name = "lon", column = @Column(name = "location_lon"))
     LocationEntity location;
 
-    Boolean paid;
+    boolean paid;
     Integer participantLimit;
-    Boolean requestModeration;
+    boolean requestModeration;
     Integer confirmedRequests;
     Long views;
 

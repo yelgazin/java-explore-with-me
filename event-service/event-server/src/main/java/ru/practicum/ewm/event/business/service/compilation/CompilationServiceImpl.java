@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.event.business.copier.CompilationCopier;
+import ru.practicum.ewm.event.business.dto.CompilationUpdateParameters;
 import ru.practicum.ewm.event.business.exception.NotFoundException;
 import ru.practicum.ewm.event.persistence.entity.CompilationEntity;
 import ru.practicum.ewm.event.persistence.entity.EventEntity;
@@ -14,6 +15,7 @@ import ru.practicum.ewm.event.util.PageableUtil;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static ru.practicum.ewm.event.util.MessageFormatter.format;
@@ -67,8 +69,8 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
-    public CompilationEntity updateCompilation(long compilationId, CompilationEntity sourceCompilation) {
-        log.info("Создание подборки c id {}. Параметры обновления {}.", compilationId, sourceCompilation);
+    public CompilationEntity updateCompilation(long compilationId, CompilationUpdateParameters updateParameters) {
+        log.info("Создание подборки c id {}. Параметры обновления {}.", compilationId, updateParameters);
 
         CompilationEntity savedCompilation = compilationRepository.findById(compilationId)
                 .orElseThrow(() -> new NotFoundException(
@@ -77,14 +79,17 @@ public class CompilationServiceImpl implements CompilationService {
                         )
                 );
 
-        compilationCopier.update(savedCompilation, sourceCompilation);
+        compilationCopier.update(savedCompilation, updateParameters);
+        updateEventsList(savedCompilation, updateParameters.getEvents());
 
-        List<EventEntity> eventList = eventRepository.findAllById(sourceCompilation.getEvents().stream()
-                .map(EventEntity::getId)
-                .collect(Collectors.toList()));
-
-        savedCompilation.setEvents(new HashSet<>(eventList));
         return savedCompilation;
+    }
+
+    private void updateEventsList(CompilationEntity savedCompilation, Set<Long> events) {
+        if (events != null && !events.isEmpty()) {
+            List<EventEntity> eventList = eventRepository.findAllById(events);
+            savedCompilation.setEvents(new HashSet<>(eventList));
+        }
     }
 
     @Override

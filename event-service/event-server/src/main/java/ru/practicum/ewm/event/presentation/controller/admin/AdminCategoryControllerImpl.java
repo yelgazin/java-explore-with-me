@@ -25,7 +25,7 @@ public class AdminCategoryControllerImpl implements AdminCategoryController {
     @Override
     public CategoryResponse updateCategory(long categoryId, CategoryUpdateRequest updateRequest) {
         return categoryMapper.toCategoryResponse(
-                categoryService.updateCategory(categoryId, categoryMapper.toCategoryEntity(updateRequest))
+                categoryService.updateCategory(categoryId, categoryMapper.toCategoryUpdateParameters(updateRequest))
         );
     }
 

@@ -89,7 +89,7 @@ public class ParticipationRequestServiceImpl implements ParticipationRequestServ
 
         validateParticipationLimit(event);
 
-        if (!event.getRequestModeration() || event.getParticipantLimit() == 0) {
+        if (!event.isRequestModeration() || event.getParticipantLimit() == 0) {
             confirmParticipationRequest(participationRequest);
         }
 
@@ -142,7 +142,7 @@ public class ParticipationRequestServiceImpl implements ParticipationRequestServ
                 currentRequest.setState(ParticipationRequestEntity.ParticipationRequestState.REJECTED);
                 result.get(1).add(currentRequest);
             } else if (newStatus == CONFIRMED) {
-                if (limit == 0 || !currentEvent.getRequestModeration() || currentEvent.getConfirmedRequests() < limit) {
+                if (limit == 0 || !currentEvent.isRequestModeration() || currentEvent.getConfirmedRequests() < limit) {
                     confirmParticipationRequest(currentRequest);
                     result.get(0).add(currentRequest);
                 } else {

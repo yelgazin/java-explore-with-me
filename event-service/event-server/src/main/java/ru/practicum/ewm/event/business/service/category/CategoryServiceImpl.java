@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.event.business.copier.CategoryCopier;
+import ru.practicum.ewm.event.business.dto.CategoryUpdateParameters;
 import ru.practicum.ewm.event.business.exception.BusinessLogicException;
 import ru.practicum.ewm.event.business.exception.NotFoundException;
 import ru.practicum.ewm.event.persistence.entity.CategoryEntity;
@@ -34,8 +35,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryEntity updateCategory(long categoryId, CategoryEntity sourceCategory) {
-        log.info("Обновление категории c id {}. Параметры обновления {}.", categoryId, sourceCategory);
+    public CategoryEntity updateCategory(long categoryId, CategoryUpdateParameters updateParameters) {
+        log.info("Обновление категории c id {}. Параметры обновления {}.", categoryId, updateParameters);
 
         CategoryEntity targetCategory = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new NotFoundException(
@@ -44,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
                         )
                 );
 
-        categoryCopier.update(targetCategory, sourceCategory);
+        categoryCopier.update(targetCategory, updateParameters);
         return targetCategory;
     }
 

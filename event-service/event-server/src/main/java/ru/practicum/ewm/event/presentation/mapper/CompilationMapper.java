@@ -4,6 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
+import ru.practicum.ewm.event.business.dto.CompilationUpdateParameters;
 import ru.practicum.ewm.event.persistence.entity.CompilationEntity;
 import ru.practicum.ewm.event.persistence.entity.EventEntity;
 import ru.practicum.ewm.event.presentation.dto.CompilationCreateRequest;
@@ -33,8 +34,7 @@ public interface CompilationMapper {
     @Mapping(source = "events", target = "events", qualifiedByName = "idsToEvents")
     CompilationEntity toCompilationEntity(CompilationCreateRequest compilationCreateRequest);
 
-    @Mapping(source = "events", target = "events", qualifiedByName = "idsToEvents")
-    CompilationEntity toCompilationEntity(CompilationUpdateRequest compilationUpdateRequest);
+    CompilationUpdateParameters toCompilationUpdateParameters(CompilationUpdateRequest compilationUpdateRequest);
 
     @Named(value = "idsToEvents")
     default Set<EventEntity> idsToEvents(Set<Long> events) {

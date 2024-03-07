@@ -1,6 +1,7 @@
 package ru.practicum.ewm.event.business.service.event;
 
 import ru.practicum.ewm.event.business.dto.EventSearchParameters;
+import ru.practicum.ewm.event.business.dto.EventUpdateParameters;
 import ru.practicum.ewm.event.business.exception.BusinessLogicException;
 import ru.practicum.ewm.event.business.exception.NotFoundException;
 import ru.practicum.ewm.event.business.exception.ValidationException;
@@ -64,17 +65,17 @@ public interface EventService {
     /**
      * Обновление события.
      *
-     * @param subjectInfo сведения о вызывающем субъекте
-     * @param eventId     id события
-     * @param sourceEvent параметры для обновления
-     * @param stateAction действие над событием
+     * @param subjectInfo      сведения о вызывающем субъекте
+     * @param eventId          id события
+     * @param updateParameters параметры для обновления
+     * @param stateAction      действие над событием
      * @return обновленное событие.
      * @throws NotFoundException      если событие не найдено.
      * @throws BusinessLogicException если событие не в разрешенном статусе.
      * @throws ValidationException    если переданы некорректные параметры.
      */
     EventEntity updateEvent(SubjectInfo subjectInfo, long eventId,
-                            EventEntity sourceEvent, EventStateAction stateAction);
+                            EventUpdateParameters updateParameters, EventStateAction stateAction);
 
     /**
      * Установка количества уникальных просмотров за всё время.

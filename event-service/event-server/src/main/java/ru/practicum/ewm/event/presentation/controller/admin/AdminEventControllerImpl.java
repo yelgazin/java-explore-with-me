@@ -47,7 +47,7 @@ public class AdminEventControllerImpl implements AdminEventController {
     @Override
     public EventFullResponse updateEvent(long eventId, EventUpdateRequest eventUpdateRequest) {
         return eventMapper.toEventFullResponse(eventService.updateEvent(SubjectInfo.of(SubjectRole.ADMIN),
-                eventId, eventMapper.toEventEntity(eventUpdateRequest), eventUpdateRequest.getStateAction())
+                eventId, eventMapper.toEventUpdateParameters(eventUpdateRequest), eventUpdateRequest.getStateAction())
         );
     }
 }
