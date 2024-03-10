@@ -3,6 +3,10 @@ package ru.practicum.ewm.event.persistence.entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.geolatte.geom.C2D;
+import org.geolatte.geom.G2D;
+import org.geolatte.geom.Geometry;
+import org.geolatte.geom.Point;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -33,10 +37,7 @@ public class EventEntity extends AbstractEntity {
     @ToString.Exclude
     UserEntity initiator;
 
-    @Embedded
-    @AttributeOverride(name = "lat", column = @Column(name = "location_lat"))
-    @AttributeOverride(name = "lon", column = @Column(name = "location_lon"))
-    LocationEntity location;
+    Point<G2D> location;
 
     boolean paid;
     Integer participantLimit;

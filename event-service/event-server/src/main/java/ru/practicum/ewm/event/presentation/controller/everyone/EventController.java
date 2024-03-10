@@ -29,12 +29,13 @@ public interface EventController {
     @Operation(summary = "Получение событий с возможностью фильтрации")
     List<EventShortResponse> findEvents(
             @RequestParam(required = false) String text,
-            @RequestParam(required = false) Collection<Long> categoriesIds,
+            @RequestParam(required = false, name = "categories") Collection<Long> categoriesIds,
             @RequestParam(required = false) Boolean paid,
             @RequestParam(defaultValue = "#{T(java.time.LocalDateTime).now()}") LocalDateTime rangeStart,
             @RequestParam(required = false) LocalDateTime rangeEnd,
             @RequestParam(required = false) boolean onlyAvailable,
             @RequestParam(required = false) EventSortBy sortBy,
+            @RequestParam(required = false, name = "locations") Collection<Long> locationsIds,
             @PositiveOrZero @RequestParam(defaultValue = "0") long from,
             @Positive @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size,
             HttpServletRequest request

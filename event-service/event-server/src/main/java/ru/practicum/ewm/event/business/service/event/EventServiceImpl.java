@@ -2,6 +2,9 @@ package ru.practicum.ewm.event.business.service.event;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.geolatte.geom.G2D;
+import org.geolatte.geom.MultiPolygon;
+import org.geolatte.geom.Polygon;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.event.business.copier.EventCopier;
@@ -14,15 +17,20 @@ import ru.practicum.ewm.event.business.model.EventStateAction;
 import ru.practicum.ewm.event.business.model.SubjectInfo;
 import ru.practicum.ewm.event.persistence.entity.CategoryEntity;
 import ru.practicum.ewm.event.persistence.entity.EventEntity;
+import ru.practicum.ewm.event.persistence.entity.LocationEntity;
 import ru.practicum.ewm.event.persistence.entity.UserEntity;
 import ru.practicum.ewm.event.persistence.enums.EventSortBy;
 import ru.practicum.ewm.event.persistence.repository.CategoryRepository;
 import ru.practicum.ewm.event.persistence.repository.EventRepository;
+import ru.practicum.ewm.event.persistence.repository.LocationRepository;
 import ru.practicum.ewm.event.persistence.repository.UserRepository;
 import ru.practicum.ewm.event.util.PageableUtil;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static ru.practicum.ewm.event.persistence.entity.EventEntity.EventState;
 import static ru.practicum.ewm.event.util.MessageFormatter.format;
@@ -38,6 +46,7 @@ public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final LocationRepository locationRepository;
     private final EventCopier eventCopier;
 
     @Override
@@ -53,6 +62,22 @@ public class EventServiceImpl implements EventService {
             throw new ValidationException("Дата окончания периода не может быть раньше даты начала.",
                     "Предоставлены неверные данные.");
         }
+
+//        Collection<Long> locationsIds = searchParameters.getLocationsIds();
+//        if (!Objects.isNull(locationsIds)) {
+//
+//            List<Polygon<G2D>> polygons = locationRepository.findById(locationsIds)
+//                    .stream().map(LocationEntity::getPolygon)
+//                    .collect(Collectors.toList());
+//
+//            Polygon<G2D> searchPolygon = searchParameters.getPolygon();
+//            if (!Objects.isNull(searchPolygon)) {
+//                polygons.add(searchPolygon);
+//            }
+//
+//            MultiPolygon<G2D> multiPolygon = new MultiPolygon<>(polygons.<Polygon<G2D>>toArray(Polygon[]::new));
+//            searchParameters.setPolygon(multiPolygon);
+//        }
 
         return eventRepository.findEvents(searchParameters, sortBy, PageableUtil.of(from, size));
     }

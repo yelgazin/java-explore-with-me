@@ -4,7 +4,10 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.spatial.MultiPolygonExpression;
 import org.apache.commons.lang3.NotImplementedException;
+import org.geolatte.geom.G2D;
+import org.geolatte.geom.Polygon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaContext;
@@ -18,8 +21,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import static ru.practicum.ewm.event.persistence.entity.QEventEntity.eventEntity;
+import static ru.practicum.ewm.event.persistence.entity.QLocationEntity.locationEntity;
 
 @Component
 public class CustomizedEventRepositoryImpl implements CustomizedEventRepository {
@@ -27,8 +32,8 @@ public class CustomizedEventRepositoryImpl implements CustomizedEventRepository 
     private final JPAQueryFactory queryFactory;
 
     @Autowired
-    public CustomizedEventRepositoryImpl(JpaContext context) {
-        EntityManager entityManager = context.getEntityManagerByManagedType(EventEntity.class);
+    public CustomizedEventRepositoryImpl(JpaContext jpaContext) {
+        EntityManager entityManager = jpaContext.getEntityManagerByManagedType(EventEntity.class);
         this.queryFactory = new JPAQueryFactory(entityManager);
     }
 
@@ -106,6 +111,16 @@ public class CustomizedEventRepositoryImpl implements CustomizedEventRepository 
             conditions.add(eventEntity.date.loe(rangeEnd));
         }
 
+        Collection<Long> locationIds = searchParameters.getLocationsIds();
+        if (!Objects.isNull(locationIds)) {
+            conditions.add(makeLocationsIdsCondition(locationIds));
+        }
+
+        Polygon<G2D> polygon = searchParameters.getPolygon();
+        if (!Objects.isNull(polygon)) {
+            conditions.add(eventEntity.location.intersects(polygon));
+        }
+
         boolean onlyAvailable = searchParameters.isOnlyAvailable();
         if (onlyAvailable) {
             conditions.add(makeOnlyAvailableCondition());
@@ -124,5 +139,22 @@ public class CustomizedEventRepositoryImpl implements CustomizedEventRepository 
     private BooleanExpression makeOnlyAvailableCondition() {
         return eventEntity.participantLimit.eq(0)
                 .or(eventEntity.participantLimit.lt(eventEntity.participationRequests.size()));
+    }
+
+    private BooleanExpression makeLocationsIdsCondition(Collection<Long> locationIds) {
+
+        List<BooleanExpression> expressions = new ArrayList<>();
+
+        locationIds.forEach(locationId -> {
+            BooleanExpression booleanExpression = queryFactory.selectFrom(locationEntity)
+                    .where(locationEntity.id.eq(locationId)
+                            .and(locationEntity.polygon.contains(eventEntity.location)))
+                    .exists();
+            expressions.add(booleanExpression);
+        });
+
+        return expressions.stream()
+                .reduce(BooleanExpression::or)
+                .orElseThrow(IllegalArgumentException::new);
     }
 }

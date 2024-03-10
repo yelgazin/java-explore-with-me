@@ -34,7 +34,8 @@ public class EventControllerImpl implements EventController {
     @Override
     public List<EventShortResponse> findEvents(String text, Collection<Long> categoriesIds, Boolean paid,
                                                LocalDateTime rangeStart, LocalDateTime rangeEnd,
-                                               boolean onlyAvailable, EventSortBy sortBy, long from, int size,
+                                               boolean onlyAvailable, EventSortBy sortBy,
+                                               Collection<Long> locationsIds, long from, int size,
                                                HttpServletRequest request) {
 
         EventSearchParameters searchParameters = EventSearchParameters.builder()
@@ -44,6 +45,7 @@ public class EventControllerImpl implements EventController {
                 .rangeStart(rangeStart)
                 .rangeEnd(rangeEnd)
                 .onlyAvailable(onlyAvailable)
+                .locationsIds(locationsIds)
                 .states(List.of(EventEntity.EventState.PUBLISHED))
                 .build();
 
