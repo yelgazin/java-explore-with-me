@@ -52,7 +52,7 @@ public class EventCreateRequest {
 
     @Valid
     @NotNull(message = "Местоположение событие не может быть пустым.")
-    LocationDto location;
+    PointDto location;
 
     Boolean paid;
 

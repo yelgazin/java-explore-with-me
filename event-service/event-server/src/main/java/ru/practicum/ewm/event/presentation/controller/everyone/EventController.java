@@ -36,6 +36,7 @@ public interface EventController {
             @RequestParam(required = false) boolean onlyAvailable,
             @RequestParam(required = false) EventSortBy sortBy,
             @RequestParam(required = false, name = "locations") Collection<Long> locationsIds,
+            @RequestParam(required = false, name = "polygon") String polygon,
             @PositiveOrZero @RequestParam(defaultValue = "0") long from,
             @Positive @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size,
             HttpServletRequest request

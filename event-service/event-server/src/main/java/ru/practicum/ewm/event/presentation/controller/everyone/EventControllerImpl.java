@@ -10,6 +10,7 @@ import ru.practicum.ewm.event.persistence.enums.EventSortBy;
 import ru.practicum.ewm.event.presentation.dto.EventFullResponse;
 import ru.practicum.ewm.event.presentation.dto.EventShortResponse;
 import ru.practicum.ewm.event.presentation.mapper.EventMapper;
+import ru.practicum.ewm.event.presentation.mapper.LocationMapper;
 import ru.practicum.ewm.stat.client.StatClient;
 import ru.practicum.ewm.stat.common.presentation.dto.EndpointHitCreateRequest;
 import ru.practicum.ewm.stat.common.presentation.dto.StatResponse;
@@ -29,14 +30,15 @@ public class EventControllerImpl implements EventController {
     private static final LocalDateTime EPOCH_START = LocalDateTime.of(1970, 1, 1, 0, 0);
     private final EventService eventService;
     private final EventMapper eventMapper;
+    private final LocationMapper locationMapper;
     private final StatClient statClient;
 
     @Override
     public List<EventShortResponse> findEvents(String text, Collection<Long> categoriesIds, Boolean paid,
                                                LocalDateTime rangeStart, LocalDateTime rangeEnd,
                                                boolean onlyAvailable, EventSortBy sortBy,
-                                               Collection<Long> locationsIds, long from, int size,
-                                               HttpServletRequest request) {
+                                               Collection<Long> locationsIds, String polygon,
+                                               long from, int size, HttpServletRequest request) {
 
         EventSearchParameters searchParameters = EventSearchParameters.builder()
                 .text(text)
@@ -46,6 +48,7 @@ public class EventControllerImpl implements EventController {
                 .rangeEnd(rangeEnd)
                 .onlyAvailable(onlyAvailable)
                 .locationsIds(locationsIds)
+                .polygon(polygon != null ? locationMapper.toPolygon(polygon) : null)
                 .states(List.of(EventEntity.EventState.PUBLISHED))
                 .build();
 

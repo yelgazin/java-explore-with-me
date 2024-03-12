@@ -53,7 +53,7 @@ public class EventUpdateRequest {
     LocalDateTime eventDate;
 
     @Valid
-    LocationDto location;
+    PointDto location;
 
     Boolean paid;
 

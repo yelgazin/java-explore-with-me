@@ -81,7 +81,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional(readOnly = true)
     public CategoryEntity findById(long categoryId) {
-        log.info("Получение категорий по id {}.", categoryId);
+        log.info("Получение категории по id {}.", categoryId);
 
         return categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new NotFoundException(

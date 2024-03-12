@@ -30,7 +30,7 @@ public class EndpointHitCreateRequest {
     @Schema(description = "IP-адрес пользователя, осуществившего запрос", example = "192.163.0.1")
     String ip;
 
-    @NotNull(message = "Дата и время не могут быть пыстыми.")
+    @NotNull(message = "Дата и время не могут быть пустыми.")
     @Schema(description = "Дата и время, когда был совершен запрос к эндпоинту (в формате \"yyyy-MM-dd HH:mm:ss\")",
             example = "2022-09-06 11:00:23")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

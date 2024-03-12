@@ -5,7 +5,7 @@ import org.geolatte.geom.Point;
 import org.mapstruct.*;
 import ru.practicum.ewm.event.business.dto.EventUpdateParameters;
 import ru.practicum.ewm.event.persistence.entity.EventEntity;
-import ru.practicum.ewm.event.presentation.dto.LocationDto;
+import ru.practicum.ewm.event.presentation.dto.PointDto;
 
 import static org.geolatte.geom.builder.DSL.g;
 import static org.geolatte.geom.builder.DSL.point;
@@ -21,7 +21,7 @@ public interface EventCopier {
     void update(@MappingTarget EventEntity targetEntity, EventUpdateParameters updateParameters);
 
     @Named("toPoint")
-    default Point<G2D> toPoint(LocationDto locationDto) {
-        return point(WGS84, g(locationDto.getLon(), locationDto.getLat()));
+    default Point<G2D> toPoint(PointDto pointDto) {
+        return point(WGS84, g(pointDto.getLon(), pointDto.getLat()));
     }
 }

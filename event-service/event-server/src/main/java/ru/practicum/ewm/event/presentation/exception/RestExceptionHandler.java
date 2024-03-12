@@ -1,6 +1,7 @@
 package ru.practicum.ewm.event.presentation.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.geolatte.geom.codec.WkbDecodeException;
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,20 @@ public class RestExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = ConversionFailedException.class)
     public RestException handeConversionFailedException(ConversionFailedException ex) {
+        String message = ex.getLocalizedMessage();
+        String reason = "Недопустимый запрос.";
+        log.info(message);
+
+        return RestException.builder()
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .message(message)
+                .reason(reason)
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = WkbDecodeException.class)
+    public RestException handeWkbDecodeException(WkbDecodeException ex) {
         String message = ex.getLocalizedMessage();
         String reason = "Недопустимый запрос.";
         log.info(message);

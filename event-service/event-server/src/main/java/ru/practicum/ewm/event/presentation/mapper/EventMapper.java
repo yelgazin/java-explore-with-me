@@ -29,6 +29,7 @@ public interface EventMapper {
     @Mapping(source = "date", target = "eventDate")
     @Mapping(source = "created", target = "createdOn")
     @Mapping(source = "published", target = "publishedOn")
+    @Mapping(source = "location", target = "location", qualifiedByName = "fromPoint")
     EventFullResponse toEventFullResponse(EventEntity eventEntity);
 
     @IterableMapping(qualifiedByName = "toEventFullResponse")
@@ -48,8 +49,14 @@ public interface EventMapper {
     EventUpdateParameters toEventUpdateParameters(EventUpdateRequest updateRequest);
 
     @Named("toPoint")
-    default Point<G2D> toPoint(LocationDto locationDto) {
-        return point(WGS84, g(locationDto.getLon(), locationDto.getLat()));
+    default Point<G2D> toPoint(PointDto pointDto) {
+        return point(WGS84, g(pointDto.getLon(), pointDto.getLat()));
+    }
+
+    @Named("fromPoint")
+    default PointDto toPoint(Point<G2D> point) {
+        G2D position = point.getPosition();
+        return new PointDto((float) position.getLat(), (float) position.getLon());
     }
 }
 

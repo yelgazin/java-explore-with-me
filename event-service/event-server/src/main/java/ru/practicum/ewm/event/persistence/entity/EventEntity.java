@@ -3,9 +3,7 @@ package ru.practicum.ewm.event.persistence.entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.geolatte.geom.C2D;
 import org.geolatte.geom.G2D;
-import org.geolatte.geom.Geometry;
 import org.geolatte.geom.Point;
 import org.hibernate.annotations.CreationTimestamp;
 

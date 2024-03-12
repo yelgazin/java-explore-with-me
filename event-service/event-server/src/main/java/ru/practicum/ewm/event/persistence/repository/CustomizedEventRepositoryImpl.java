@@ -1,12 +1,14 @@
 package ru.practicum.ewm.event.persistence.repository;
 
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.querydsl.spatial.MultiPolygonExpression;
 import org.apache.commons.lang3.NotImplementedException;
 import org.geolatte.geom.G2D;
+import org.geolatte.geom.MultiPolygon;
 import org.geolatte.geom.Polygon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -118,7 +120,7 @@ public class CustomizedEventRepositoryImpl implements CustomizedEventRepository 
 
         Polygon<G2D> polygon = searchParameters.getPolygon();
         if (!Objects.isNull(polygon)) {
-            conditions.add(eventEntity.location.intersects(polygon));
+            conditions.add(eventEntity.location.within(polygon));
         }
 
         boolean onlyAvailable = searchParameters.isOnlyAvailable();
@@ -141,20 +143,16 @@ public class CustomizedEventRepositoryImpl implements CustomizedEventRepository 
                 .or(eventEntity.participantLimit.lt(eventEntity.participationRequests.size()));
     }
 
+    @SuppressWarnings("unchecked")
     private BooleanExpression makeLocationsIdsCondition(Collection<Long> locationIds) {
 
-        List<BooleanExpression> expressions = new ArrayList<>();
+        Expression<?> unionExpression =
+                ExpressionUtils.template(MultiPolygon.class, "geomunion({0})", locationEntity.polygon);
 
-        locationIds.forEach(locationId -> {
-            BooleanExpression booleanExpression = queryFactory.selectFrom(locationEntity)
-                    .where(locationEntity.id.eq(locationId)
-                            .and(locationEntity.polygon.contains(eventEntity.location)))
-                    .exists();
-            expressions.add(booleanExpression);
-        });
+        Expression<?> multipolygonExpressions = queryFactory.selectFrom(locationEntity)
+                .where(locationEntity.id.in(locationIds))
+                .select(unionExpression);
 
-        return expressions.stream()
-                .reduce(BooleanExpression::or)
-                .orElseThrow(IllegalArgumentException::new);
+        return eventEntity.location.within(multipolygonExpressions);
     }
 }
