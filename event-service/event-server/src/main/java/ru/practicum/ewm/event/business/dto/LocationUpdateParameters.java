@@ -1,22 +1,19 @@
-package ru.practicum.ewm.event.persistence.entity;
+package ru.practicum.ewm.event.business.dto;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 import org.geolatte.geom.G2D;
 import org.geolatte.geom.Polygon;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 @Getter
 @Setter
-@Entity
 @ToString
-@Table(name = "location")
-public class LocationEntity extends AbstractEntity {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class LocationUpdateParameters {
 
     String name;
-
     Polygon<G2D> polygon;
 }

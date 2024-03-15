@@ -19,7 +19,7 @@ public class EventFullResponse extends EventShortResponse {
     @JsonFormat(pattern = FORMAT_DATE_TIME)
     LocalDateTime createdOn;
 
-    LocationDto location;
+    PointDto location;
     Integer participantLimit;
 
     @JsonFormat(pattern = FORMAT_DATE_TIME)

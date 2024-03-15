@@ -1,14 +1,17 @@
 package ru.practicum.ewm.event.presentation.mapper;
 
+import org.geolatte.geom.G2D;
+import org.geolatte.geom.Point;
 import org.mapstruct.*;
 import ru.practicum.ewm.event.business.dto.EventUpdateParameters;
 import ru.practicum.ewm.event.persistence.entity.EventEntity;
-import ru.practicum.ewm.event.presentation.dto.EventCreateRequest;
-import ru.practicum.ewm.event.presentation.dto.EventFullResponse;
-import ru.practicum.ewm.event.presentation.dto.EventShortResponse;
-import ru.practicum.ewm.event.presentation.dto.EventUpdateRequest;
+import ru.practicum.ewm.event.presentation.dto.*;
 
 import java.util.List;
+
+import static org.geolatte.geom.builder.DSL.g;
+import static org.geolatte.geom.builder.DSL.point;
+import static org.geolatte.geom.crs.CoordinateReferenceSystems.WGS84;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface EventMapper {
@@ -26,6 +29,7 @@ public interface EventMapper {
     @Mapping(source = "date", target = "eventDate")
     @Mapping(source = "created", target = "createdOn")
     @Mapping(source = "published", target = "publishedOn")
+    @Mapping(source = "location", target = "location", qualifiedByName = "fromPoint")
     EventFullResponse toEventFullResponse(EventEntity eventEntity);
 
     @IterableMapping(qualifiedByName = "toEventFullResponse")
@@ -39,8 +43,20 @@ public interface EventMapper {
     @Mapping(target = "requestModeration", defaultValue = "true")
     @Mapping(target = "category.id", source = "category")
     @Mapping(target = "date", source = "eventDate")
+    @Mapping(target = "location", source = "location", qualifiedByName = "toPoint")
     EventEntity toEventEntity(EventCreateRequest createRequest);
 
     EventUpdateParameters toEventUpdateParameters(EventUpdateRequest updateRequest);
+
+    @Named("toPoint")
+    default Point<G2D> toPoint(PointDto pointDto) {
+        return point(WGS84, g(pointDto.getLon(), pointDto.getLat()));
+    }
+
+    @Named("fromPoint")
+    default PointDto toPoint(Point<G2D> point) {
+        G2D position = point.getPosition();
+        return new PointDto((float) position.getLat(), (float) position.getLon());
+    }
 }
 

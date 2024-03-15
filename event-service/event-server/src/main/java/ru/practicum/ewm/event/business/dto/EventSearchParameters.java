@@ -2,6 +2,8 @@ package ru.practicum.ewm.event.business.dto;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.geolatte.geom.G2D;
+import org.geolatte.geom.Polygon;
 import ru.practicum.ewm.event.persistence.entity.EventEntity;
 
 import java.time.LocalDateTime;
@@ -53,4 +55,14 @@ public class EventSearchParameters {
      * Только события у которых не исчерпан лимит запросов на участие.
      */
     boolean onlyAvailable;
+
+    /**
+     * Поиск событий внутри полигона.
+     */
+    Polygon<G2D> polygon;
+
+    /**
+     * Список идентификаторов локаций в которых будет вестись поиск.
+     */
+    Collection<Long> locationsIds;
 }

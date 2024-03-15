@@ -18,6 +18,7 @@ import ru.practicum.ewm.event.persistence.entity.UserEntity;
 import ru.practicum.ewm.event.persistence.enums.EventSortBy;
 import ru.practicum.ewm.event.persistence.repository.CategoryRepository;
 import ru.practicum.ewm.event.persistence.repository.EventRepository;
+import ru.practicum.ewm.event.persistence.repository.LocationRepository;
 import ru.practicum.ewm.event.persistence.repository.UserRepository;
 import ru.practicum.ewm.event.util.PageableUtil;
 
@@ -38,6 +39,7 @@ public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final LocationRepository locationRepository;
     private final EventCopier eventCopier;
 
     @Override
