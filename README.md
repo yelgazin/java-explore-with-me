@@ -45,7 +45,7 @@ Cпецификация в формате Swagger доступна по след
 ![postgis](https://img.shields.io/badge/postgis-blue)
 ![hibernate](https://img.shields.io/badge/Hibernate-59666C?style=flat&logo=Hibernate&logoColor=white)
 ![postman](https://img.shields.io/badge/Postman-FF6C37?style=flat&logo=postman&logoColor=white)
-
+![maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=flat&logo=Apache%20Maven&logoColor=white)
 
 
 
