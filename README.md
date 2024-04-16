@@ -37,7 +37,7 @@ Cпецификация в формате Swagger доступна по след
 * спецификация сервиса статистики: [http://localhost:9090/swagger-ui.html](http://localhost:9090/swagger-ui.html).
 
 
-## Технологический стэк
+## Технологический стек
 
 ![java](https://img.shields.io/badge/java-%23ed8b00.svg?logo=openjdk&logoColor=white&style=flat)
 ![spring](https://img.shields.io/badge/spring-%236db33f.svg?logo=spring&logoColor=white&style=flat)
