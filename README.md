@@ -34,7 +34,7 @@ docker-compose up
 ## Спецификация API
 Cпецификация в формате Swagger доступна по следующим эндпоинтам:
 * спецификация основного сервиса: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html);
-* спецификация сервиса статистики: [http://localhost:9090/swagger-ui.html](http://localhost:8080/swagger-ui.html).
+* спецификация сервиса статистики: [http://localhost:9090/swagger-ui.html](http://localhost:9090/swagger-ui.html).
 
 
 ## Технологический стэк
